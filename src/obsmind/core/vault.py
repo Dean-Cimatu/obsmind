@@ -136,3 +136,25 @@ def find_note_by_title(vault_path: Path, title: str) -> Path | None:
         if p.stem == title:
             return p
     return None
+
+
+def get_today_note(vault_path: Path, daily_folder: str) -> Path | None:
+    """Return today's daily note path if it exists, else None."""
+    today = datetime.today().strftime("%Y-%m-%d")
+    path = vault_path / daily_folder / f"{today}.md"
+    return path if path.exists() else None
+
+
+def read_today_note(vault_path: Path, daily_folder: str) -> tuple[str, Path]:
+    """Read today's daily note. Raises FileNotFoundError if missing.
+
+    Returns (content, path).
+    """
+    path = get_today_note(vault_path, daily_folder)
+    if path is None:
+        today = datetime.today().strftime("%Y-%m-%d")
+        raise FileNotFoundError(
+            f"No daily note for today ({today}).\n"
+            "Fix: run 'obs daily' to create it from the template."
+        )
+    return path.read_text(), path

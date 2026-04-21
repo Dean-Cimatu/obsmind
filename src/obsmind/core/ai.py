@@ -33,6 +33,9 @@ TIER_MAP: dict[str, str] = {
     "ping":           HAIKU,   # doctor health check
     "context_build":  SONNET,  # context update (future stages)
     "daily_update":   SONNET,  # surgical daily note edits
+    "daily_reflect":  SONNET,  # end-of-day reflection formatting
+    "daily_fill":     SONNET,  # Focus Areas suggestions
+    "daily_summary":  HAIKU,   # read-only day summary
     "qa":             SONNET,  # vault question answering
     "generate":       OPUS,    # full note generation
     "review":         OPUS,    # weekly review

@@ -13,6 +13,7 @@ from .commands.config import (
     usage_command,
     doctor_command,
 )
+from .commands.daily import daily_app
 
 console = Console()
 INDIGO = "bright_blue"
@@ -29,6 +30,7 @@ app = typer.Typer(
 app.add_typer(config_app,  name="config",  no_args_is_help=True)
 app.add_typer(context_app, name="context", no_args_is_help=True)
 app.add_typer(profile_app, name="profile", no_args_is_help=True)
+app.add_typer(daily_app,   name="daily",   no_args_is_help=False)
 
 
 # ── top-level commands ─────────────────────────────────────────────────────

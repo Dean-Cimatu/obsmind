@@ -121,3 +121,18 @@ def todo_capture(text: str) -> str:
     """
     result = _run(["todo", text, "--quiet"])
     return result.stdout.strip()
+
+
+_TASKS_SECTION_NAMES = {"tasks", "task"}
+
+
+def daily_add(section: str, text: str) -> str:
+    """Write to today's daily note via the appropriate obs command.
+
+    Routes Tasks-section writes to 'obs todo' (formats as table row).
+    All other sections go to 'obs append <section> <text>'.
+    This is the canonical write path — never write vault files directly.
+    """
+    if section.lower() in _TASKS_SECTION_NAMES:
+        return todo_capture(text)
+    return append_section(section, text)
