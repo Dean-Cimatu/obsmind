@@ -136,6 +136,18 @@ def rewrite_note(note_name: str, new_content: str) -> str:
     return result.stdout.strip()
 
 
+def create_note(title: str, content: str, folder: str = "") -> str:
+    """Create a new note from content via stdin. Fails if the note already exists.
+
+    Equivalent to: echo "content" | obs new-note "Title" [--folder folder]
+    """
+    args = ["new-note", title]
+    if folder:
+        args += ["--folder", folder]
+    result = _run(args, input_text=content)
+    return result.stdout.strip()
+
+
 def daily_add(section: str, text: str) -> str:
     """Write to today's daily note via the appropriate obs command.
 

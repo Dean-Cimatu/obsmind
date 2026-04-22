@@ -6,6 +6,7 @@ import typer
 from rich.console import Console
 
 from . import __version__
+from .core import update_check
 from .commands.config import (
     config_app,
     context_app,
@@ -15,7 +16,9 @@ from .commands.config import (
 )
 from .commands.ask import register as register_ask
 from .commands.daily import daily_app
+from .commands.generate import register as register_generate
 from .commands.note import note_app
+from .commands.review import register as register_review
 
 console = Console()
 INDIGO = "bright_blue"
@@ -36,6 +39,8 @@ app.add_typer(daily_app,   name="daily",   no_args_is_help=False)
 app.add_typer(note_app,    name="note",    no_args_is_help=True)
 
 register_ask(app)
+register_review(app)
+register_generate(app)
 
 
 # ── top-level commands ─────────────────────────────────────────────────────
@@ -72,3 +77,6 @@ def main(
     ] = None,
 ) -> None:
     """ObsMind — AI companion for your Obsidian vault."""
+    hint = update_check.check()
+    if hint:
+        console.print(f"[yellow]{hint}[/yellow]\n")
