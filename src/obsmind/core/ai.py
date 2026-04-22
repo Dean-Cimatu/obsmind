@@ -36,6 +36,20 @@ TIER_MAP: dict[str, str] = {
     "daily_reflect":  SONNET,  # end-of-day reflection formatting
     "daily_fill":     SONNET,  # Focus Areas suggestions
     "daily_summary":  HAIKU,   # read-only day summary
+    # note commands
+    "note_edit":      SONNET,  # surgical section edit
+    "note_extend":    SONNET,  # new section generation
+    "note_enhance":   SONNET,  # fill incomplete sections
+    "note_rewrite":   SONNET,  # section-level rewrite
+    "note_rewrite_full": OPUS, # whole-note rewrite (--full)
+    "note_fix":       HAIKU,   # structural fixes only (headings, frontmatter)
+    "note_tags":      HAIKU,   # propose/update tags
+    "note_summarise": HAIKU,   # read-only summary
+    # ask / find
+    "ask":            SONNET,  # RAG question answering (may auto-escalate to Opus)
+    "ask_opus":       OPUS,    # analytical / high-source-count asks
+    "find":           HAIKU,   # semantic ranking without generation
+    # other
     "qa":             SONNET,  # vault question answering
     "generate":       OPUS,    # full note generation
     "review":         OPUS,    # weekly review

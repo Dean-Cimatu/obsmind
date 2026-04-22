@@ -126,6 +126,16 @@ def todo_capture(text: str) -> str:
 _TASKS_SECTION_NAMES = {"tasks", "task"}
 
 
+def rewrite_note(note_name: str, new_content: str) -> str:
+    """Replace a note's entire content via stdin.
+
+    ObsFlow backs up the original to trash before writing, so obs undo works.
+    Equivalent to: echo "content" | obs rewrite-note "Note Name"
+    """
+    result = _run(["rewrite-note", note_name], input_text=new_content)
+    return result.stdout.strip()
+
+
 def daily_add(section: str, text: str) -> str:
     """Write to today's daily note via the appropriate obs command.
 

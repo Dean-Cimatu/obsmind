@@ -98,3 +98,55 @@ def sections_prompt_block(content: str) -> str:
         preview = f" — {s.preview}" if not s.is_empty else " (empty)"
         lines.append(f"{i}. {s.name}{preview}")
     return "\n".join(lines)
+
+
+# ── content manipulation (returns new strings — never writes) ──────────────
+
+def replace_section_content(note_content: str, section_name: str, new_body: str) -> str:
+    """Return the note with a named section's body replaced.
+
+    Preserves the ## header line and all surrounding content.
+    Raises ValueError if the section is not found.
+    """
+    sections = parse_sections(note_content)
+    target = next((s for s in sections if s.name.lower() == section_name.lower()), None)
+    if target is None:
+        raise ValueError(f"Section '{section_name}' not found in note.")
+
+    lines = note_content.splitlines()
+    header_line = lines[target.line_start]
+    before = lines[:target.line_start]
+    after  = lines[target.line_end:]
+
+    body_lines = new_body.rstrip("\n").splitlines()
+    assembled  = before + [header_line, ""] + body_lines + [""] + after
+
+    return _clean_blank_lines("\n".join(assembled))
+
+
+def insert_section_after(
+    note_content: str,
+    after_section: str,
+    new_section_name: str,
+    new_body: str,
+) -> str:
+    """Return the note with a new H2 section inserted after `after_section`.
+
+    If `after_section` is not found, appends the new section at the end.
+    """
+    sections = parse_sections(note_content)
+    target = next((s for s in sections if s.name.lower() == after_section.lower()), None)
+
+    lines = note_content.splitlines()
+    insert_at = target.line_end if target is not None else len(lines)
+
+    new_block = ["", f"## {new_section_name}", ""] + new_body.rstrip("\n").splitlines() + [""]
+
+    assembled = lines[:insert_at] + new_block + lines[insert_at:]
+    return _clean_blank_lines("\n".join(assembled))
+
+
+def _clean_blank_lines(text: str) -> str:
+    """Collapse runs of 3+ blank lines to 2."""
+    import re
+    return re.sub(r"\n{3,}", "\n\n", text)

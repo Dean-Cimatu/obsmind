@@ -138,6 +138,19 @@ def find_note_by_title(vault_path: Path, title: str) -> Path | None:
     return None
 
 
+def find_note_fuzzy(vault_path: Path, query: str) -> Path | None:
+    """Find a note by fuzzy title match (exact first, then prefix, then substring)."""
+    query_lower = query.lower()
+    candidates: list[Path] = []
+    for p in iter_notes(vault_path):
+        stem_lower = p.stem.lower()
+        if stem_lower == query_lower:
+            return p  # exact match
+        if stem_lower.startswith(query_lower) or query_lower in stem_lower:
+            candidates.append(p)
+    return candidates[0] if len(candidates) == 1 else (candidates[0] if candidates else None)
+
+
 def get_today_note(vault_path: Path, daily_folder: str) -> Path | None:
     """Return today's daily note path if it exists, else None."""
     today = datetime.today().strftime("%Y-%m-%d")

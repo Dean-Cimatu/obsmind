@@ -67,6 +67,9 @@ def mock_env(tmp_vault, tmp_path, mocker):
     mocker.patch("obsmind.core.context.CONTEXT_FILE",     tmp_path / "context.md")
     mocker.patch("obsmind.core.usage.USAGE_FILE",         tmp_path / "usage.jsonl")
     mocker.patch("obsmind.core.usage.USAGE_DIR",          tmp_path)
+    # Freeze date so tests don't break the next day
+    mocker.patch("obsmind.commands.daily.read_today_note", return_value=(DAILY_CONTENT, note))
+    mocker.patch("obsmind.core.vault.datetime") .today.return_value.strftime.return_value = "2026-04-21"
     return vault, note
 
 

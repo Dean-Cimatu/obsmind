@@ -13,7 +13,9 @@ from .commands.config import (
     usage_command,
     doctor_command,
 )
+from .commands.ask import register as register_ask
 from .commands.daily import daily_app
+from .commands.note import note_app
 
 console = Console()
 INDIGO = "bright_blue"
@@ -31,6 +33,9 @@ app.add_typer(config_app,  name="config",  no_args_is_help=True)
 app.add_typer(context_app, name="context", no_args_is_help=True)
 app.add_typer(profile_app, name="profile", no_args_is_help=True)
 app.add_typer(daily_app,   name="daily",   no_args_is_help=False)
+app.add_typer(note_app,    name="note",    no_args_is_help=True)
+
+register_ask(app)
 
 
 # ── top-level commands ─────────────────────────────────────────────────────
