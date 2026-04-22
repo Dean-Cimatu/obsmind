@@ -39,7 +39,7 @@ daily_app = typer.Typer(
 )
 
 
-@daily_app.callback(invoke_without_command=True)
+@daily_app.callback(invoke_without_command=True, context_settings={"allow_extra_args": True, "ignore_unknown_options": True})
 def daily(
     ctx: typer.Context,
     update: Annotated[Optional[str], typer.Option("--update", "-u", help="Route text to the right section")] = None,
@@ -52,6 +52,13 @@ def daily(
     """
     if ctx.invoked_subcommand is not None:
         return
+
+    # Collect any trailing unquoted words into --update
+    if update and ctx.args:
+        update = update + " " + " ".join(ctx.args)
+    elif ctx.args and not update and not reflect and not fill:
+        # bare words with no flag treated as --update
+        update = " ".join(ctx.args)
 
     if update:
         _cmd_update(update)

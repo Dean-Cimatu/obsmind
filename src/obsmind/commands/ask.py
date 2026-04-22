@@ -167,19 +167,19 @@ def _parse_ranked(text: str) -> list[dict]:
 def register(app: typer.Typer) -> None:
     """Register ask and find as top-level commands on the given app."""
 
-    @app.command("ask")
+    @app.command("ask", context_settings={"allow_extra_args": False, "ignore_unknown_options": False})
     def cmd_ask(
-        question: Annotated[str, typer.Argument(help="Question to ask your vault")],
+        words: Annotated[list[str], typer.Argument(help="Question to ask your vault")],
         limit: Annotated[int, typer.Option("--limit", "-l", help="Max sources to retrieve")] = 5,
         opus: Annotated[bool, typer.Option("--opus", help="Force Opus for the answer")] = False,
     ) -> None:
         """Ask a question — Claude answers using your vault notes as sources."""
-        ask_command(question, limit=limit, opus=opus)
+        ask_command(" ".join(words), limit=limit, opus=opus)
 
     @app.command("find")
     def cmd_find(
-        query: Annotated[str, typer.Argument(help="What to search for")],
+        words: Annotated[list[str], typer.Argument(help="What to search for")],
         limit: Annotated[int, typer.Option("--limit", "-l", help="Max results")] = 10,
     ) -> None:
         """Find and rank notes relevant to a query."""
-        find_command(query, limit=limit)
+        find_command(" ".join(words), limit=limit)

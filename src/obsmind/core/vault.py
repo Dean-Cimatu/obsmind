@@ -121,9 +121,10 @@ def find_project_notes(vault_path: Path) -> list[Path]:
         try:
             meta, _ = read_note(p)
             tags = meta.get("tags", [])
-            if isinstance(tags, list) and "project" in tags:
-                projects.append(p)
-            elif isinstance(tags, str) and "project" in tags.split():
+            if isinstance(tags, str):
+                tags = tags.split()
+            tags = [str(t) for t in tags if t is not None]
+            if "project" in tags:
                 projects.append(p)
         except Exception:
             continue

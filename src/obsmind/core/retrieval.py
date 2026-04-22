@@ -122,6 +122,7 @@ def retrieve(
         tags = meta.get("tags", [])
         if isinstance(tags, str):
             tags = tags.split()
+        tags = [str(t) for t in tags if t is not None]
 
         score, matched = _score_note(
             path,
