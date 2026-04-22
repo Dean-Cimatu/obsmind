@@ -55,6 +55,7 @@ TIER_MAP: dict[str, str] = {
     "standup":        HAIKU,   # concise daily standup from yesterday's note
     "project_status": SONNET,  # project status brief from note + daily mentions
     "connect":        SONNET,  # find conceptually related unlinked notes
+    "inbox_route":    SONNET,  # batch route Quick Capture items to vault notes
     # review / prioritise / generate
     "review":         OPUS,    # weekly review (full vault scan)
     "prioritise":     SONNET,  # rank open todos

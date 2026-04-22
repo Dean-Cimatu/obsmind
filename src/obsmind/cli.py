@@ -16,6 +16,7 @@ from .commands.config import (
 )
 from .commands.ask import register as register_ask
 from .commands.connect import register as register_connect
+from .commands.inbox import register as register_inbox
 from .commands.project import register as register_project
 from .commands.standup import register as register_standup
 from .commands.view import register as register_view
@@ -49,6 +50,7 @@ register_view(app)
 register_standup(app)
 register_project(app)
 register_connect(app)
+register_inbox(app)
 
 
 # ── top-level commands ─────────────────────────────────────────────────────
