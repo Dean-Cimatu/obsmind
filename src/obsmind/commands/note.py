@@ -6,6 +6,7 @@ from typing import Annotated, Optional
 
 import typer
 from rich.console import Console
+from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.prompt import Confirm
 
@@ -569,7 +570,7 @@ def cmd_summarise(
             _die(str(e))
 
     console.print(Panel(
-        resp.content.strip(),
+        Markdown(resp.content.strip()),
         title=f"[{INDIGO}]{note_name}[/{INDIGO}]",
         border_style=INDIGO,
     ))

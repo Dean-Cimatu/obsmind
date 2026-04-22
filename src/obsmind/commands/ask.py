@@ -6,6 +6,7 @@ from typing import Annotated, Optional
 
 import typer
 from rich.console import Console
+from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.table import Table
 
@@ -80,7 +81,7 @@ def ask_command(
 
     tier_label = "[yellow](opus)[/yellow]" if auto_opus and not opus else ""
     console.print(Panel(
-        resp.content.strip(),
+        Markdown(resp.content.strip()),
         title=f"[{INDIGO}]ObsMind Answer[/{INDIGO}] {tier_label}",
         border_style=INDIGO,
     ))

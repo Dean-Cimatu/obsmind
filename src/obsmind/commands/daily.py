@@ -8,6 +8,7 @@ from typing import Annotated, Optional
 
 import typer
 from rich.console import Console
+from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.prompt import Confirm, Prompt
 from rich.syntax import Syntax
@@ -356,7 +357,7 @@ def _cmd_summary() -> None:
 
     today = datetime.today().strftime("%Y-%m-%d")
     console.print(Panel(
-        resp.content.strip(),
+        Markdown(resp.content.strip()),
         title=f"[{INDIGO}]Daily Summary — {today}[/{INDIGO}]",
         border_style=INDIGO,
     ))
