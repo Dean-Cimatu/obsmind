@@ -15,6 +15,7 @@ from .commands.config import (
     doctor_command,
 )
 from .commands.ask import register as register_ask
+from .commands.project import register as register_project
 from .commands.standup import register as register_standup
 from .commands.view import register as register_view
 from .commands.daily import daily_app
@@ -45,6 +46,7 @@ register_review(app)
 register_generate(app)
 register_view(app)
 register_standup(app)
+register_project(app)
 
 
 # ── top-level commands ─────────────────────────────────────────────────────
