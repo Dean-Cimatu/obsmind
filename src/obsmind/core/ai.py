@@ -52,6 +52,7 @@ TIER_MAP: dict[str, str] = {
     "ask":            SONNET,  # RAG question answering (may auto-escalate to Opus)
     "ask_opus":       OPUS,    # analytical / high-source-count asks
     "find":           HAIKU,   # semantic ranking without generation
+    "standup":        HAIKU,   # concise daily standup from yesterday's note
     # review / prioritise / generate
     "review":         OPUS,    # weekly review (full vault scan)
     "prioritise":     SONNET,  # rank open todos
