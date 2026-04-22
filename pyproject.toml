@@ -4,16 +4,34 @@ build-backend = "hatchling.build"
 
 [project]
 name = "obsmind"
-version = "0.1.0"
+version = "1.0.0"
 description = "ObsMind — AI companion for your Obsidian vault"
 requires-python = ">=3.11"
 license = { text = "MIT" }
+keywords = ["obsidian", "ai", "vault", "notes", "claude", "anthropic", "cli"]
+authors = [{ name = "Dean Cimatu" }]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Utilities",
+]
 dependencies = [
     "typer>=0.12.0",
     "anthropic>=0.49.0",
     "rich>=13.0.0",
     "python-frontmatter>=1.1.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/Dean-Cimatu/obsmind"
+Repository = "https://github.com/Dean-Cimatu/obsmind"
+Issues = "https://github.com/Dean-Cimatu/obsmind/issues"
 
 [project.scripts]
 obsmind = "obsmind.cli:app"
