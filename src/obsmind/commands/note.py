@@ -21,7 +21,7 @@ from ..core.sections import (
     insert_section_after,
     list_sections,
 )
-from ..core.vault import load_config, resolve_vault_path, find_note_fuzzy, read_note
+from ..core.vault import load_config, resolve_vault_path, find_note_fuzzy, read_note, iter_notes
 
 console = Console()
 
@@ -496,6 +496,52 @@ def _set_frontmatter_tags(content: str, tags: list[str]) -> str:
 
 
 # ── summarise ──────────────────────────────────────────────────────────────
+
+@note_app.command("autolink")
+def cmd_autolink(
+    note: Annotated[str, typer.Argument(help="Note name (fuzzy matched)")],
+) -> None:
+    """Scan a note and add [[wikilinks]] to matching vault notes."""
+    content, path, meta = _resolve_note(note)
+    note_name = path.stem
+    cfg = load_config()
+    try:
+        vault_path = resolve_vault_path(cfg)
+    except FileNotFoundError as e:
+        _die(str(e))
+
+    all_titles = sorted({p.stem for p in iter_notes(vault_path) if p.stem != note_name})
+    if not all_titles:
+        console.print(f"[{DIM}]  No other notes in vault.[/{DIM}]")
+        return
+
+    titles_block = "\n".join(f"- {t}" for t in all_titles[:300])
+    prompt_text = load_prompt("note_autolink", note_content=content, vault_titles=titles_block)
+
+    with console.status(f"[{DIM}]Finding link opportunities in '{note_name}'…[/{DIM}]"):
+        try:
+            resp = ai_core.call(
+                task="note_autolink",
+                prompt=prompt_text,
+                max_tokens=3000,
+                command="note autolink",
+            )
+        except (EnvironmentError, ValueError) as e:
+            _die(str(e))
+
+    new_content = resp.content.strip()
+    if not new_content or new_content == content.strip():
+        console.print(f"  [{DIM}]No new links found in '{note_name}'.[/{DIM}]")
+        return
+
+    if not _confirm_write(path, content, new_content, "Added wikilinks"):
+        console.print(f"[{DIM}]  Aborted.[/{DIM}]")
+        raise typer.Exit(0)
+
+    _write_note(path, note_name, new_content)
+    console.print(f"\n[green]✓[/green] Links added to [bold]{note_name}[/bold]")
+    console.print(f"[{DIM}]  {resp.meta_line()}[/{DIM}]\n")
+
 
 @note_app.command("summarise")
 def cmd_summarise(

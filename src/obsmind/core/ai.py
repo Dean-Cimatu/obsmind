@@ -32,10 +32,13 @@ _COST: dict[str, tuple[float, float]] = {
 TIER_MAP: dict[str, str] = {
     "ping":           HAIKU,   # doctor health check
     "context_build":  SONNET,  # context update (future stages)
-    "daily_update":   SONNET,  # surgical daily note edits
-    "daily_reflect":  SONNET,  # end-of-day reflection formatting
-    "daily_fill":     SONNET,  # Focus Areas suggestions
-    "daily_summary":  HAIKU,   # read-only day summary
+    "daily_update":       SONNET,  # surgical daily note edits
+    "daily_reflect":      SONNET,  # end-of-day reflection formatting
+    "daily_fill":         SONNET,  # Focus Areas suggestions
+    "daily_summary":      HAIKU,   # read-only day summary
+    "daily_clarify":      HAIKU,   # generate clarifying questions from summary
+    "daily_from_summary": SONNET,  # populate full note from summary + answers
+    "note_autolink":      HAIKU,   # add wikilinks to matching vault note titles
     # note commands
     "note_edit":      SONNET,  # surgical section edit
     "note_extend":    SONNET,  # new section generation
