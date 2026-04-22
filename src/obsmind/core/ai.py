@@ -54,6 +54,7 @@ TIER_MAP: dict[str, str] = {
     "find":           HAIKU,   # semantic ranking without generation
     "standup":        HAIKU,   # concise daily standup from yesterday's note
     "project_status": SONNET,  # project status brief from note + daily mentions
+    "connect":        SONNET,  # find conceptually related unlinked notes
     # review / prioritise / generate
     "review":         OPUS,    # weekly review (full vault scan)
     "prioritise":     SONNET,  # rank open todos
